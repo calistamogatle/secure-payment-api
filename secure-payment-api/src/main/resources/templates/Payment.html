@@ -1,0 +1,25 @@
+<form id="paymentForm">
+    <input type="text" name="recipientAccount" placeholder="Recipient Account" required>
+    <input type="number" name="amount" placeholder="Amount" required>
+    <input type="text" name="currency" placeholder="Currency" required>
+    <input type="text" name="swiftCode" placeholder="SWIFT Code" required>
+    <button type="submit">Pay Now</button>
+</form>
+
+<script>
+document.getElementById("paymentForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    let data = {
+        recipientAccount: this.recipientAccount.value,
+        amount: this.amount.value,
+        currency: this.currency.value,
+        swiftCode: this.swiftCode.value
+    };
+    fetch("/api/payments/make", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    }).then(response => response.json())
+      .then(data => alert("Payment Successful!"));
+});
+</script>
